@@ -1,0 +1,38 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #163300; /* Cambia este color por el que desees */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #163300; /* Cambia este color si afecta a tu contenedor */
+  overflow-x: hidden; /* Evita el desbordamiento horizontal */
+}
+/* Contenido de la página */
+.main-content {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 1200px; /* El contenido tiene un máximo de ancho para pantallas grandes */
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #1e1e1e; /* Fondo oscuro para el contenido */
+}
+
+/* Estilo para las imágenes */
+img {
+  max-width: 100%; /* Hace que las imágenes sean responsivas */
+  height: auto;
+}
+
+/* Diseño responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 10px;
+  }
+}
