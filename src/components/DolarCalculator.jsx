@@ -198,16 +198,17 @@ const DolarCalculator = () => {
   }, []);
 
   // Calcular el total en pesos
-  const calcularTotal = () => {
-    const tasaDolar = manualDolar ? parseFloat(manualDolar) : dolares.blue.venta;
-    const cantidad = parseFloat(cantidadDolares);
+const calcularTotal = () => {
+  const tasaDolar = manualVentaBlue || dolares.blue.venta; // Si hay un valor manual, usarlo, si no, usar el de la base de datos
+  const cantidad = parseFloat(cantidadDolares);
 
-    if (!isNaN(tasaDolar) && !isNaN(cantidad)) {
-      setTotal(tasaDolar * cantidad);
-    } else {
-      setTotal(null);
-    }
-  };
+  if (!isNaN(tasaDolar) && !isNaN(cantidad)) {
+    setTotal(tasaDolar * cantidad); // Realizar la multiplicación correcta
+  } else {
+    setTotal(null);
+  }
+};
+
 
   // Formatear números con separadores de miles y dos decimales
   const formatearNumero = (numero) => {
