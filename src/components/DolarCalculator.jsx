@@ -129,6 +129,7 @@ const DolarCalculator = () => {
 
   const [manualVentaBlue, setManualVentaBlue] = useState(null);
   const [manualCompraBlue, setManualCompraBlue] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Para saber si está cargando
 
   // Cargar valores manuales desde Firestore al iniciar
   useEffect(() => {
@@ -139,6 +140,7 @@ const DolarCalculator = () => {
       if (docSnap.exists()) {
         setManualVentaBlue(docSnap.data().venta);
         setManualCompraBlue(docSnap.data().compra);
+        setIsLoading(false); // Ya se cargaron los valores
       }
     };
 
@@ -215,6 +217,8 @@ const DolarCalculator = () => {
     }).format(numero);
   };
 
+
+
   return (
     <Container>
       {/* Campo para ingresar el valor manual de compra del dólar blue */}
@@ -236,8 +240,15 @@ const DolarCalculator = () => {
 
       {/* Mostrar el valor manual o el valor de la API */}
       <Card>
-        <CardText>
-          DÓLAR BLUE - Compra: <span className="price-value">{manualCompraBlue || dolares.blue.compra || "Cargando..."}</span> | Venta: <span className="price-value">{manualVentaBlue || dolares.blue.venta || "Cargando..."}</span>
+      <CardText>
+          DÓLAR BLUE - Compra:{" "}
+          <span className="price-value">
+            {isLoading ? "Cargando..." : manualCompraBlue || dolares.blue.compra || "Cargando..."}
+          </span>{" "}
+          | Venta:{" "}
+          <span className="price-value">
+            {isLoading ? "Cargando..." : manualVentaBlue || dolares.blue.venta || "Cargando..."}
+          </span>
         </CardText>
       </Card>
 

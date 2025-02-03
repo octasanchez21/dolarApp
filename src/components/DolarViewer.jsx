@@ -223,14 +223,14 @@ const DolarViewer = () => {
     <span className="price-group">
       <span>Compra:</span>
       <span className="price-value">
-        ${manualCompraBlue || dolares.blue.compra || "Cargando..."}
+        ${manualCompraBlue || "Cargando..."}
       </span>
     </span>
     
     <span className="price-group">
       <span>Venta:</span>
       <span className="price-value">
-        ${manualVentaBlue || dolares.blue.venta || "Cargando..."}
+        ${manualVentaBlue || "Cargando..."}
       </span>
     </span>
   </p>
