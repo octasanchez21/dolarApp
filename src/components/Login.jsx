@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { users } from "../users";
-import backgroundVideo from "../assets/dolar.mp4"; // Asegúrate de tener el video en esta ruta
 
 const LoginContainer = styled.div`
   display: flex;
@@ -19,8 +18,9 @@ const VideoBackground = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1;
+  z-index: -1; /* Si el video sigue sin verse, prueba quitar este z-index */
 `;
+
 
 const LoginBox = styled.div`
   background-color: rgba(42, 42, 42, 0.8); /* Semi-transparente */
@@ -121,10 +121,6 @@ const Login = ({ onLogin }) => {
 
   return (
     <LoginContainer>
-      <VideoBackground autoPlay loop muted>
-        <source src={backgroundVideo} type="video/mp4" />
-        Tu navegador no soporta videos.
-      </VideoBackground>
       <LoginBox>
         <Title>Iniciar Sesión</Title>
         <InputContainer>
