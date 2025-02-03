@@ -1,5 +1,109 @@
 import React, { useState, useEffect } from "react";
-import { Container, Input, Button, Card, CardText, SideCard } from "../styles";
+import styled from "styled-components";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
+// Estilos con styled-components
+const Container = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  background-color: transparent;
+  color: #ffffff;
+  padding: 5rem;
+  border-radius: 10px;
+  margin-top: 50px;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+`;
+
+const Card = styled.div`
+  background-color: rgba(39, 44, 39, 0.74);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(71, 182, 37, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 10px;
+
+`;
+
+
+const Input = styled.input`
+  width: 60%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px ;
+  border-radius: 10px;
+  font-size: 3vh;
+  text-align: center;
+  background-color: #2a2a2a;
+  color: #ffffff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+ &:hover {
+     border-color:rgb(138, 165, 138);
+    box-shadow: 0 0 10px rgb(119, 141, 119);
+  }
+
+  &:focus {
+     border-color: #163300;
+    box-shadow: 0 0 10px rgba(25, 214, 25, 0.39);
+    outline: none;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 10px;
+  }
+`;
+
+const Button = styled.button`
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 10px;
+  }
+`;
+
+const CardText = styled.p`
+  font-size: 26px;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 0;
+
+  /* Estilos para los valores numéricos */
+  .price-value {
+    color: #4CAF50; /* Verde */
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
 
 const DolarCalculator = () => {
   const [dolares, setDolares] = useState({
@@ -11,6 +115,7 @@ const DolarCalculator = () => {
     mayorista: { compra: null, venta: null },
     cripto: { compra: null, venta: null },
   });
+
   const [cotizaciones, setCotizaciones] = useState({
     eur: null,
     brl: null,
@@ -22,9 +127,41 @@ const DolarCalculator = () => {
   const [cantidadDolares, setCantidadDolares] = useState("");
   const [total, setTotal] = useState(null);
 
+  const [manualVentaBlue, setManualVentaBlue] = useState(null);
+  const [manualCompraBlue, setManualCompraBlue] = useState(null);
+
+  // Cargar valores manuales desde Firestore al iniciar
+  useEffect(() => {
+    const fetchManualValues = async () => {
+      const docRef = doc(db, "dolarBlue", "manualValues");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setManualVentaBlue(docSnap.data().venta);
+        setManualCompraBlue(docSnap.data().compra);
+      }
+    };
+
+    fetchManualValues();
+  }, []);
+
+  // Guardar valores manuales en Firestore cuando cambien
+  useEffect(() => {
+    const saveManualValues = async () => {
+      if (manualVentaBlue !== null && manualCompraBlue !== null) {
+        await setDoc(doc(db, "dolarBlue", "manualValues"), {
+          compra: manualCompraBlue,
+          venta: manualVentaBlue,
+        });
+      }
+    };
+
+    saveManualValues();
+  }, [manualVentaBlue, manualCompraBlue]);
+
+  // Obtener datos de la API al cargar el componente
   useEffect(() => {
     const urls = [
-      "https://dolarapi.com/v1/dolares/blue",
       "https://dolarapi.com/v1/dolares/oficial",
       "https://dolarapi.com/v1/dolares/bolsa",
       "https://dolarapi.com/v1/dolares/contadoconliqui",
@@ -37,7 +174,7 @@ const DolarCalculator = () => {
       "https://dolarapi.com/v1/cotizaciones/uyu",
     ];
 
-    Promise.all(urls.map(url => fetch(url).then(res => res.json())))
+    Promise.all(urls.map((url) => fetch(url).then((res) => res.json())))
       .then((data) => {
         setDolares({
           blue: { compra: data[0].compra, venta: data[0].venta },
@@ -58,13 +195,11 @@ const DolarCalculator = () => {
       .catch((error) => console.error("Error al obtener datos:", error));
   }, []);
 
+  // Calcular el total en pesos
   const calcularTotal = () => {
     const tasaDolar = manualDolar ? parseFloat(manualDolar) : dolares.blue.venta;
     const cantidad = parseFloat(cantidadDolares);
-  
-    console.log("Tasa de Dólar:", tasaDolar);
-    console.log("Cantidad de Dólares:", cantidad);
-  
+
     if (!isNaN(tasaDolar) && !isNaN(cantidad)) {
       setTotal(tasaDolar * cantidad);
     } else {
@@ -72,202 +207,64 @@ const DolarCalculator = () => {
     }
   };
 
-  // Función para formatear el número con separadores de miles y dos decimales
-const formatearNumero = (numero) => {
-  return new Intl.NumberFormat("es-AR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(numero);
-};
-
-  
-  const cardStyles = {
-    fontSize: "24px",
-    fontWeight: "bold",
-    padding:"2.8vh",
-  };
-
-
-  const containerStyles = {
-    marginTop: "10px",
-    display: "flex",
-    justifyContent: "space-around", // Cambia a "space-around" para reducir el espacio
-    alignItems: "stretch",
-    padding: "0 2vh", // Reduce el padding lateral
-    width: "100%",
-  };
-  
-  const textStyles = {
-    marginBottom: "5px",
-    padding: "0 1vh",
-
-    fontSize: "18px", // Reduce el tamaño de la fuente si es necesario
-  };
-  
-  const columnStyles = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-  };
-
-  const lineBlue = {
-    fontSize: "18px",
-    borderTop: "2px solid #45a049", /* Línea azul brillante */
-    minHeight: "100px",
-    backgroundColor: "#163300", /* Fondo oscuro */
-    color: "#f5f5f5", /* Texto claro */
-    padding: "0px", /* Relleno para que se vea mejor */
-  };
-
-  const containerCalculator = {
-    fontSize: "18px",
-    borderTop: "2px solid #45a049", /* Línea azul brillante */
-    minHeight: "7vh",
-    backgroundColor: "#2A2A2A", /* Fondo oscuro */
-    color: "#f5f5f5", /* Texto claro */
-    padding: "0px", /* Relleno para que se vea mejor */
+  // Formatear números con separadores de miles y dos decimales
+  const formatearNumero = (numero) => {
+    return new Intl.NumberFormat("es-AR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(numero);
   };
 
   return (
-    <Container >
+    <Container>
+      {/* Campo para ingresar el valor manual de compra del dólar blue */}
+      <Input
+        type="number"
+        placeholder="Ingresar valor de COMPRA"
 
-       <h2>Conversor de Dólar</h2>
+        onChange={(e) => setManualCompraBlue(parseFloat(e.target.value))}
+      />
 
-  <Input 
-  style={containerCalculator}
-    type="number"
-    placeholder="Ingresar valor de dólar en pesos"
-    value={manualDolar}
-    onChange={(e) => setManualDolar(e.target.value)}
-  />
-  <Input
-    style={containerCalculator}
-    type="number"
-    placeholder="Cantidad de dólares"
-    value={cantidadDolares}
-    onChange={(e) => setCantidadDolares(e.target.value)}
-  />
+      {/* Campo para ingresar el valor manual de venta del dólar blue */}
+      <Input
+        type="number"
+        placeholder="Ingresar valor de VENTA"
 
-  <Button 
-    onClick={calcularTotal} 
-    disabled={!cantidadDolares} 
-    style={{ marginBottom: "20px" }}
-  >
-    Calcular
-  </Button>
+        onChange={(e) => setManualVentaBlue(parseFloat(e.target.value))}
+      />
 
-  {total !== null && (
-        <Card style={{containerCalculator, marginBottom:"20px"}}>
-          <CardText style={{ fontSize: "24px", fontWeight: "bold" }}>
-            Total en pesos: ${formatearNumero(total)}
-          </CardText>
+
+      {/* Mostrar el valor manual o el valor de la API */}
+      <Card>
+        <CardText>
+          DÓLAR BLUE - Compra: <span className="price-value">{manualCompraBlue || dolares.blue.compra || "Cargando..."}</span> | Venta: <span className="price-value">{manualVentaBlue || dolares.blue.venta || "Cargando..."}</span>
+        </CardText>
+      </Card>
+
+      <h2 style={{ marginTop: "4rem" }}>Conversor de Dólar</h2>
+      <Input
+
+        type="number"
+        placeholder="Ingresar valor de dólar en pesos"
+        value={manualVentaBlue}
+        onChange={(e) => setManualDolar(e.target.value)}
+      />
+      <Input
+        type="number"
+        placeholder="Cantidad de dólares"
+        value={cantidadDolares}
+        onChange={(e) => setCantidadDolares(e.target.value)}
+      />
+
+      <Button onClick={calcularTotal} disabled={!cantidadDolares}>
+        Calcular
+      </Button>
+
+      {total !== null && (
+        <Card>
+          <CardText>Total en pesos: ${formatearNumero(total)}</CardText>
         </Card>
       )}
-
-
-<Card style={{ ...lineBlue, maxWidth: "none", width: "100%" }}> {/* Ancho completo */}
-  <CardText style={{ fontSize: "30px", fontWeight: "bold", paddingTop: "10px" }}>
-    DÓLAR BLUE - Compra: ${dolares.blue.compra || "Cargando..."} | Venta: ${dolares.blue.venta || "Cargando..."}
-  </CardText>
-</Card>
-
-<div style={{
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", // Ajusta el ancho mínimo de las Card
-  gap: "10px",
-  width: "100%",
-  marginTop: "20px",
-}}>
-  {/* Cards de Dólar */}
-  <Card className="dolar-card" style={lineBlue}>
-    <CardText style={cardStyles}>DÓLAR OFICIAL</CardText>
-    <div style={containerStyles}>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Compra</CardText>
-        <CardText>${dolares.oficial.compra || "Cargando..."}</CardText>
-      </div>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Venta</CardText>
-        <CardText>${dolares.oficial.venta || "Cargando..."}</CardText>
-      </div>
-    </div>
-  </Card>
-
-  <Card className="dolar-card" style={lineBlue}>
-    <CardText style={cardStyles}>DÓLAR MEP</CardText>
-    <div style={containerStyles}>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Compra</CardText>
-        <CardText>${dolares.bolsa.compra || "Cargando..."}</CardText>
-      </div>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Venta</CardText>
-        <CardText>${dolares.bolsa.venta || "Cargando..."}</CardText>
-      </div>
-    </div>
-  </Card>
-
-  <Card className="dolar-card" style={lineBlue}>
-    <CardText style={cardStyles}>DÓLAR LIQUI</CardText>
-    <div style={containerStyles}>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Compra</CardText>
-        <CardText>${dolares.contadoconliqui.compra || "Cargando..."}</CardText>
-      </div>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Venta</CardText>
-        <CardText>${dolares.contadoconliqui.venta || "Cargando..."}</CardText>
-      </div>
-    </div>
-  </Card>
-
-  <Card className="dolar-card" style={lineBlue}>
-    <CardText style={cardStyles}>DÓLAR TARJETA</CardText>
-    <div style={containerStyles}>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Compra</CardText>
-        <CardText>${dolares.tarjeta.compra || "Cargando..."}</CardText>
-      </div>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Venta</CardText>
-        <CardText>${dolares.tarjeta.venta || "Cargando..."}</CardText>
-      </div>
-    </div>
-  </Card>
-
-  <Card className="dolar-card" style={lineBlue}>
-    <CardText style={cardStyles}>DÓLAR CRIPTO</CardText>
-    <div style={containerStyles}>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Compra</CardText>
-        <CardText>${dolares.cripto.compra || "Cargando..."}</CardText>
-      </div>
-      <div style={columnStyles}>
-        <CardText style={textStyles}>Venta</CardText>
-        <CardText>${dolares.cripto.venta || "Cargando..."}</CardText>
-      </div>
-    </div>
-  </Card>
-</div>
-
-
-      {/* Cotizaciones secundarias */}
-      <div style={{ display: "flex", gap: "20px", justifyContent: "flex-end" }}>
-        <SideCard>
-          <CardText>EUR: ${cotizaciones.eur || "Cargando..."}</CardText>
-        </SideCard>
-        <SideCard>
-          <CardText>BRL: ${cotizaciones.brl || "Cargando..."}</CardText>
-        </SideCard>
-        <SideCard>
-          <CardText>CLP: ${cotizaciones.clp || "Cargando..."}</CardText>
-        </SideCard>
-        <SideCard>
-          <CardText>UYU: ${cotizaciones.uyu || "Cargando..."}</CardText>
-        </SideCard>
-      </div>
-
 
     </Container>
   );

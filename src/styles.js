@@ -7,7 +7,7 @@ export const Container = styled.div`
   text-align: center;
   background-color: transparent; /* Fondo transparente para heredar el de AppContainer */
   color: #ffffff; /* Texto blanco */
-  padding: 2rem;
+  padding: 5rem;
   border-radius: 10px;
 `;
 

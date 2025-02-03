@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Auth from "./components/Auth";
-import DolarCalculator from "./components/DolarCalculator";
 import styled from "styled-components";
+import Login from "../src/components/Login";
+import DolarCalculator from "../src/components/DolarCalculator";
+import DolarViewer from "../src/components/DolarViewer";
 
 const AppContainer = styled.div`
   position: relative;
@@ -27,22 +28,19 @@ const LogoutButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #4caf50;
+    background-color: #45a049;
   }
 `;
 
 function App() {
   const [user, setUser] = useState(null);
-  const [showWelcome, setShowWelcome] = useState(false);
 
-  const handleLogin = (user) => {
-    setUser(user);
-    setShowWelcome(true); // Mostrar el mensaje de bienvenida
+  const handleLogin = (username) => {
+    setUser(username);
   };
 
   const handleLogout = () => {
     setUser(null);
-    setShowWelcome(false); // Ocultar el mensaje de bienvenida
   };
 
   return (
@@ -50,10 +48,14 @@ function App() {
       {user && (
         <>
           <LogoutButton onClick={handleLogout}>Cerrar sesión</LogoutButton>
-          <DolarCalculator />
+          {user === "julieta" || user === "lucho" ? (
+            <DolarCalculator />
+          ) : user === "cliente" ? (
+            <DolarViewer />
+          ) : null}
         </>
       )}
-      {!user && <Auth onLogin={handleLogin} />}
+      {!user && <Login onLogin={handleLogin} />}
     </AppContainer>
   );
 }
