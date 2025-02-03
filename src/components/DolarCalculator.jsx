@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
+
 
 // Estilos con styled-components
 const Container = styled.div`
@@ -105,6 +107,25 @@ const CardText = styled.p`
   }
 `;
 
+const LogoutButton = styled.button`
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background-color: #479C4A;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #45a049;
+  }
+`;
+
+
 const DolarCalculator = () => {
   const [dolares, setDolares] = useState({
     blue: { compra: null, venta: null },
@@ -197,17 +218,33 @@ const DolarCalculator = () => {
       .catch((error) => console.error("Error al obtener datos:", error));
   }, []);
 
-  // Calcular el total en pesos
-const calcularTotal = () => {
-  const tasaDolar = manualVentaBlue || dolares.blue.venta; // Si hay un valor manual, usarlo, si no, usar el de la base de datos
-  const cantidad = parseFloat(cantidadDolares);
+  const navigate = useNavigate();
 
-  if (!isNaN(tasaDolar) && !isNaN(cantidad)) {
-    setTotal(tasaDolar * cantidad); // Realizar la multiplicación correcta
-  } else {
-    setTotal(null);
-  }
-};
+  const onLogout = () => {
+    // Aquí puedes agregar la lógica de logout, por ejemplo, limpiar tokens, redirigir, etc.
+    console.log("Usuario desconectado");
+  };
+  
+
+  const handleLogout = () => {
+    console.log("Logout iniciado"); // Verifica si este log se muestra
+    onLogout(); // Limpia el estado del usuario
+    navigate("/"); // Redirige a la página de DolarViewer
+  };
+  
+  
+
+  // Calcular el total en pesos
+  const calcularTotal = () => {
+    const tasaDolar = manualVentaBlue || dolares.blue.venta; // Si hay un valor manual, usarlo, si no, usar el de la base de datos
+    const cantidad = parseFloat(cantidadDolares);
+
+    if (!isNaN(tasaDolar) && !isNaN(cantidad)) {
+      setTotal(tasaDolar * cantidad); // Realizar la multiplicación correcta
+    } else {
+      setTotal(null);
+    }
+  };
 
 
   // Formatear números con separadores de miles y dos decimales
@@ -222,6 +259,7 @@ const calcularTotal = () => {
 
   return (
     <Container>
+      <LogoutButton onClick={handleLogout}>Salir</LogoutButton>
       {/* Campo para ingresar el valor manual de compra del dólar blue */}
       <Input
         type="number"
@@ -241,7 +279,7 @@ const calcularTotal = () => {
 
       {/* Mostrar el valor manual o el valor de la API */}
       <Card>
-      <CardText>
+        <CardText>
           DÓLAR BLUE - Compra:{" "}
           <span className="price-value">
             {isLoading ? "Cargando..." : manualCompraBlue || dolares.blue.compra || "Cargando..."}
