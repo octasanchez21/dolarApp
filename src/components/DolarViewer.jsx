@@ -33,64 +33,101 @@ const CardText = styled.p`
 `;
 
 const BlueCard = styled(Card)`
- padding: 30px;
-  textize: 60 px;
-    margin: 0 0 20px 0;
+  padding: 1vw; /* Usa un padding flexible basado en el ancho de la pantalla */
+  margin: 0 1 10px 0;
+  color: #e0e0e0;
+  width: 100%; /* La tarjeta ocupa todo el espacio disponible */
+  min-width: 320px; /* Establece un ancho mínimo (ajústalo a tu gusto) */
+  max-width: 100%; /* Limita el ancho máximo a un 100% del contenedor */
+  box-sizing: border-box; /* Asegura que el padding y margin estén dentro del ancho total de la tarjeta */
+
+  h1 {
+    font-size: 4vw; /* Ajusta el tamaño basado en el 8% del ancho de la pantalla */
+    margin: 0 0 10px 0;
     color: #e0e0e0;
+    text-align: center;
+    word-wrap: break-word; /* Permite que el texto se ajuste y no sobresalga */
   }
-    h1 {
-    font-size: 60px;
-    margin: 0 0 20px 0;
-    color: #e0e0e0;
-    text-align: center; /* Asegura que se mantenga centrado */
-    display: flex;
-    justify-content: center; /* Centra si hay algún desajuste */
-  }
-  p {
-    display: flex;
-    justify-content: center; /* Centramos las columnas */
-    gap: 50px; /* Espacio moderado entre las columnas */
-    margin: 5px 0;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
-  }
-  .price-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centramos los valores dentro de cada columna */
-    gap: 8px;
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-  }
+
+ p {
+  display: flex;
+  justify-content: center; /* Mantiene los elementos centrados */
+  gap: 2vw; /* Reduce la separación entre "Compra" y "Venta" */
+  margin: 4px 0;
+  flex-wrap: wrap; /* Permite ajuste en pantallas pequeñas */
+  word-wrap: break-word;
+}
+
+ .price-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* Reduce la separación entre "Compra" y el valor */
+  white-space: nowrap;
+}
+
   .price-value {
-  font-size: 34px; /* Ajusta el tamaño */
-  font-weight: bold;
-  color: #72ba66; /* Color para los valores */
-}
+    font-size: vw; /* 5% del ancho de la pantalla */
+    font-weight: bold;
+    color: #72ba66;
+  }
 
-.price-title {
-  font-size: 20px; /* Ajusta el tamaño */
-  font-weight: bold;
-  color: #b0b0b0; /* Color para los valores */
-}
+  .price-title {
+    font-size: 2rem; /* Ajuste fijo */
+    font-weight: bold;
+    color: #b0b0b0;
+  }
 
-
-.label {
-  font-size: 15px; /* Tamaño para "Compra" y "Venta" */
-  font-weight: bold;
-  color:#b0b0b0; /* Color para las etiquetas */
-}
+  .label {
+    font-size: 1.5rem; /* Tamaño para "Compra" y "Venta" */
+    font-weight: bold;
+    color: #b0b0b0;
+  }
 
   @media (max-width: 768px) {
+    padding: 7vw; /* Aumenta el padding proporcionalmente */
+
     h1 {
-      font-size: 40px; /* Reduce el tamaño del título en pantallas pequeñas */
+      font-size: 6vw; /* Ajuste para pantallas medianas */
     }
+
     p {
-      gap: 30px; /* Reduce el espacio entre las columnas */
+    gap: 1rem; /* Reduce aún más la separación en pantallas medianas */
+  }
+
+  .price-group {
+    gap: 0.8rem; /* Reduce la separación interna en pantallas pequeñas */
+  }
+
+    .price-value {
+      font-size: 6vw; /* Aumenta la reducción del texto en pantallas medianas */
     }
-    .price-group {
-      gap: 5px; /* Reduce el espacio entre el label y el valor */
+  }
+
+  @media (max-width: 480px) {
+    padding: 10vw; /* Aumenta el padding para pantallas pequeñas */
+
+    h1 {
+      font-size: 10vw; /* Título más pequeño en pantallas pequeñas */
+    }
+
+    .price-value {
+      font-size: 7vw; /* Texto más grande en pantallas pequeñas */
+    }
+      
+
+    .price-title {
+      font-size: 1.5rem;
+    }
+
+    .label {
+      font-size: 1.2rem;
     }
   }
 `;
+
+
+
 
 const GridContainer = styled.div`
   display: grid;
