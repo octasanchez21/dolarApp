@@ -7,7 +7,7 @@ import { db } from "../firebase";
 const Container = styled.div`
   padding: 100px;
   background-color:rgb(255, 252, 252);
-  color: #e0e0e0;
+  color:rgb(255, 255, 255);
   font-family: Arial, sans-serif;
     flex-direction: column;
   display: flex;
@@ -21,7 +21,7 @@ const Container = styled.div`
 const ContainerBlue = styled.div`
   padding: 10px;
   background-color:rgb(255, 255, 255);
-  color: #e0e0e0;
+  color:rgb(255, 253, 253);
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@ const ContainerBlue = styled.div`
 `;
 
 const Card = styled.div`
-  background-color: rgba(20, 24, 20, 0.74);
+  background-color: rgba(9, 12, 9, 0.74);
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(71, 182, 37, 0.3);

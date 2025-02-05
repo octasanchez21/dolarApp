@@ -41,18 +41,18 @@ const Input = styled.input`
   border-radius: 10px;
   font-size: 3vh;
   text-align: center;
-  background-color: #2a2a2a;
+  background-color:rgb(195, 226, 197);
   color: #ffffff;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
  &:hover {
-     border-color:rgb(138, 165, 138);
-    box-shadow: 0 0 10px rgb(92, 105, 92);
+     border-color:rgb(52, 73, 52);
+    box-shadow: 0 0 10px rgb(24, 29, 24);
   }
 
   &:focus {
      border-color: #163300;
-    box-shadow: 0 0 20px rgba(25, 214, 25, 0.39);
+    box-shadow: 0 0 20px rgba(27, 207, 27, 0.39);
     outline: none;
   }
 

@@ -9,8 +9,8 @@ const AppContainer = styled.div`
   position: relative;
   min-height: 100vh;
   width: 100%;
-  background-color: #1e1e1e;
-  color: #e0e0e0;
+  background-color:rgb(255, 255, 255);
+  color:rgb(255, 255, 255);
   font-family: Arial, sans-serif;
   overflow-x: hidden;
 `;
