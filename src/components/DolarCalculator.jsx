@@ -12,7 +12,7 @@ const Container = styled.div`
   font-family: "Roboto", sans-serif;
   text-align: center;
   background-color: transparent;
-  color: #ffffff;
+  color:rgb(66, 77, 61);
   padding: 5rem;
   border-radius: 10px;
   margin-top: 50px;
@@ -26,7 +26,7 @@ const Card = styled.div`
   background-color: rgba(39, 44, 39, 0.74);
   border-radius: 10px;
   padding: 15px;
-  box-shadow: 0 2px 5px rgba(71, 182, 37, 0.3);
+  box-shadow: 0 2px 5px rgba(71, 182, 37, 0.7);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   margin-top: 10px;
 
@@ -47,12 +47,12 @@ const Input = styled.input`
 
  &:hover {
      border-color:rgb(138, 165, 138);
-    box-shadow: 0 0 10px rgb(119, 141, 119);
+    box-shadow: 0 0 10px rgb(92, 105, 92);
   }
 
   &:focus {
      border-color: #163300;
-    box-shadow: 0 0 10px rgba(25, 214, 25, 0.39);
+    box-shadow: 0 0 20px rgba(25, 214, 25, 0.39);
     outline: none;
   }
 

@@ -6,7 +6,7 @@ import { db } from "../firebase";
 // Estilos con styled-components
 const Container = styled.div`
   padding: 100px;
-  background-color: #1e1e1e;
+  background-color:rgb(255, 252, 252);
   color: #e0e0e0;
   font-family: Arial, sans-serif;
     flex-direction: column;
@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const ContainerBlue = styled.div`
   padding: 10px;
-  background-color: #1e1e1e;
+  background-color:rgb(255, 255, 255);
   color: #e0e0e0;
   font-family: Arial, sans-serif;
   display: flex;
@@ -29,14 +29,14 @@ const ContainerBlue = styled.div`
 `;
 
 const Card = styled.div`
-  background-color: rgba(39, 44, 39, 0.74);
+  background-color: rgba(20, 24, 20, 0.74);
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(71, 182, 37, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   &:hover {
     transform: translateY(-15px); /* Efecto de elevación al hacer hover */
-    box-shadow: 0px 8px 20px #72ba66; /* Sombra más pronunciada */
+    box-shadow: 0px 0px 40px rgb(99, 194, 83); /* Sombra más pronunciada */
   }
 `;
 const CardText = styled.p`
