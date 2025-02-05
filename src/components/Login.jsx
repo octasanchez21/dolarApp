@@ -54,7 +54,7 @@ const InputField = styled.input`
 
   &:focus {
     border-color: #163300;
-    box-shadow: 0 0 10px rgb(25, 214, 25);
+    box-shadow: 0 0 10px #72ba66;
     outline: none;
   }
 
@@ -68,7 +68,7 @@ const LoginButton = styled.button`
   max-width: 300px;
   padding: 12px;
   margin-top: 20px;
-  background-color:rgb(48, 95, 13);
+  background-color:#72ba66;
   color: white;
   border: none;
   border-radius: 5px;
@@ -77,7 +77,7 @@ const LoginButton = styled.button`
   transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: rgb(36, 172, 36);;
+    background-color: #498819;;
     transform: translateY(-2px);
   }
 

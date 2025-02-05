@@ -63,7 +63,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #4caf50;
+  background-color: #72ba66;
   color: #ffffff;
   border: none;
   padding: 12px;
@@ -75,7 +75,7 @@ const Button = styled.button`
   transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #72ba66;
     transform: translateY(-2px);
   }
 
@@ -98,7 +98,7 @@ const CardText = styled.p`
 
   /* Estilos para los valores numéricos */
   .price-value {
-    color: #4CAF50; /* Verde */
+    color: #72ba66; /* Verde */
     font-weight: bold;
   }
 
@@ -112,7 +112,7 @@ const LogoutButton = styled.button`
   top: 20px;
   left: 20px;
   padding: 10px 20px;
-  background-color: #479C4A;
+  background-color: #72ba66;
   color: white;
   border: none;
   border-radius: 5px;

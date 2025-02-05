@@ -20,7 +20,7 @@ const AdminButton = styled.button`
   top: 20px;
   left: 20px;
   padding: 10px 20px;
-  background-color: #479C4A;
+  background-color: #72ba66;
   color: white;
   border: none;
   border-radius: 5px;

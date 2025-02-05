@@ -10,20 +10,17 @@ const Container = styled.div`
   color: #e0e0e0;
   font-family: Arial, sans-serif;
 `;
-
 const Card = styled.div`
-  background-color:rgba(39, 44, 39, 0.74);
+  background-color: rgba(39, 44, 39, 0.74);
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 2px 5px rgba(71, 182, 37, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-
   &:hover {
     transform: translateY(-15px); /* Efecto de elevación al hacer hover */
-    box-shadow: 0px 8px 20px rgba(54, 163, 32, 0.81); /* Sombra más pronunciada */
+    box-shadow: 0px 8px 20px #72ba66; /* Sombra más pronunciada */
   }
 `;
-
 const CardText = styled.p`
   margin: 0;
   font-size: ${(props) => (props.large ? "26px" : "24px")};
@@ -33,67 +30,62 @@ const CardText = styled.p`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  }
-
-
-  span:not(.value) {
-    font-size: .8em;
-    color: #b0b0b0;
-  }
 `;
 
 const BlueCard = styled(Card)`
-  padding: 30px;
-  text-align: center;
-
-  h1 {
-    font-size: 60px;
+ padding: 30px;
+  textize: 60 px;
     margin: 0 0 20px 0;
     color: #e0e0e0;
   }
-
+    h1 {
+    font-size: 60px;
+    margin: 0 0 20px 0;
+    color: #e0e0e0;
+    text-align: center; /* Asegura que se mantenga centrado */
+    display: flex;
+    justify-content: center; /* Centra si hay algún desajuste */
+  }
   p {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    font-size: 34px;
+    justify-content: center; /* Centramos las columnas */
+    gap: 50px; /* Espacio moderado entre las columnas */
     margin: 5px 0;
     flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
   }
-
   .price-group {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+    align-items: center; /* Centramos los valores dentro de cada columna */
     gap: 8px;
     white-space: nowrap; /* Evita que el texto se divida en varias líneas */
   }
+  .price-value {
+  font-size: 34px; /* Ajusta el tamaño */
+  font-weight: bold;
+  color: #72ba66; /* Color para los valores */
+}
 
-  /* Estilo para los valores numéricos */
-/* Estilo para los valores numéricos */
-.price-value {
-  font-size: 34px; /* Aumenta el tamaño de los valores */
-  font-weight: bold; /* Hace que se vean más resaltados */
-  transition: color 0.3s ease;
-  color: #4CAF50 !important; /* Color verde al hacer hover */
+.price-title {
+  font-size: 20px; /* Ajusta el tamaño */
+  font-weight: bold;
+  color: #b0b0b0; /* Color para los valores */
 }
 
 
-  span:not(.price-value) { /* Estilo solo para las etiquetas (Compra/Venta) */
-    font-size: 18px;
-    color: #b0b0b0;
-  }
+.label {
+  font-size: 15px; /* Tamaño para "Compra" y "Venta" */
+  font-weight: bold;
+  color:#b0b0b0; /* Color para las etiquetas */
+}
 
-  /* Ajustes para pantallas pequeñas */
   @media (max-width: 768px) {
     h1 {
       font-size: 40px; /* Reduce el tamaño del título en pantallas pequeñas */
     }
-
     p {
-      font-size: 24px; /* Reduce el tamaño de la fuente en pantallas pequeñas */
-      gap: 5px; /* Reduce el espacio entre compra y venta */
+      gap: 30px; /* Reduce el espacio entre las columnas */
     }
-
     .price-group {
       gap: 5px; /* Reduce el espacio entre el label y el valor */
     }
@@ -105,37 +97,30 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   margin-top: 30px;
-
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 `;
-
 const SideCardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: flex-end;
   margin-top: 20px;
-
   @media (max-width: 768px) {
     justify-content: center;
   }
 `;
-
 const SideCard = styled(Card)`
   flex: 1 1 calc(10% - 10px);
   min-width: 150px;
   text-align: center;
-
   @media (max-width: 768px) {
     flex: 1 1 calc(50% - 10px);
   }
-
   @media (max-width: 480px) {
     flex: 1 1 100%;
   }
@@ -151,14 +136,12 @@ const DolarViewer = () => {
     mayorista: { compra: null, venta: null },
     cripto: { compra: null, venta: null },
   });
-
   const [cotizaciones, setCotizaciones] = useState({
     eur: null,
     brl: null,
     clp: null,
     uyu: null,
   });
-
   const [manualVentaBlue, setManualVentaBlue] = useState(null);
   const [manualCompraBlue, setManualCompraBlue] = useState(null);
 
@@ -167,13 +150,11 @@ const DolarViewer = () => {
     const fetchManualValues = async () => {
       const docRef = doc(db, "dolarBlue", "manualValues");
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
         setManualVentaBlue(docSnap.data().venta);
         setManualCompraBlue(docSnap.data().compra);
       }
     };
-
     fetchManualValues();
   }, []);
 
@@ -192,7 +173,6 @@ const DolarViewer = () => {
       "https://dolarapi.com/v1/cotizaciones/clp",
       "https://dolarapi.com/v1/cotizaciones/uyu",
     ];
-
     Promise.all(urls.map((url) => fetch(url).then((res) => res.json())))
       .then((data) => {
         setDolares({
@@ -214,27 +194,51 @@ const DolarViewer = () => {
       .catch((error) => console.error("Error al obtener datos:", error));
   }, []);
 
+  // Función para calcular el 1% adicional
+  const calcularTransferencia = (valor) => {
+    return (valor * 1.01).toFixed(2);
+  };
+
   return (
     <Container>
       {/* Tarjeta del Dólar Blue */}
       <BlueCard>
-  <h1>DÓLAR BLUE</h1>
-  <p>
-    <span className="price-group">
-      <span>Compra:</span>
-      <span className="price-value">
-        ${manualCompraBlue || "Cargando..."}
-      </span>
-    </span>
-    
-    <span className="price-group">
-      <span>Venta:</span>
-      <span className="price-value">
-        ${manualVentaBlue || "Cargando..."}
-      </span>
-    </span>
-  </p>
-</BlueCard>
+        <h1>DÓLAR BLUE</h1>
+        <p style={{ display: "flex", justifyContent: "center", gap: "50px" }}>
+          {/* Columna izquierda: Efectivo */}
+          <div className="price-group">
+            <span className="label">(EFECTIVO)</span>
+
+            <span className="price-value">
+              <span className="price-title">Compra:</span>
+              ${manualCompraBlue || "Cargando..."}
+            </span>
+
+            <span className="price-value">
+              <span className="price-title">Venta:</span>
+              ${manualVentaBlue || "Cargando..."}
+            </span>
+          </div>
+
+          {/* Columna derecha: Transferencia */}
+          <div className="price-group">
+            <span className="label">(TRANSFERENCIA)</span>
+            <span className="price-value">
+              <span className="price-title">Compra:</span>
+              $
+              {manualCompraBlue
+                ? calcularTransferencia(manualCompraBlue)
+                : "Cargando..."}
+            </span>
+            <span className="price-value">
+              <span className="price-title">Venta:</span> $
+              {manualVentaBlue
+                ? calcularTransferencia(manualVentaBlue)
+                : "Cargando..."}
+            </span>
+          </div>
+        </p>
+      </BlueCard>
 
       {/* Grid de tarjetas de otros dólares */}
       <GridContainer>
@@ -246,7 +250,7 @@ const DolarViewer = () => {
                 DÓLAR {key.toUpperCase()}
               </CardText>
               <CardText>
-                <span>Compra:</span> ${value.compra || "Cargando..."} 
+                <span>Compra:</span> ${value.compra || "Cargando..."}
               </CardText>
               <CardText>
                 <span>Venta:</span> ${value.venta || "Cargando..."}
