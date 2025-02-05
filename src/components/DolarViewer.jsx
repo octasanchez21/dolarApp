@@ -249,10 +249,10 @@ const DolarViewer = () => {
       .catch((error) => console.error("Error al obtener datos:", error));
   }, []);
 
-  // Función para calcular el 1% adicional
   const calcularTransferencia = (valor) => {
-    return (valor * 1.01).toFixed(2);
+    return Math.ceil((valor * 1.01).toFixed(2));
   };
+  
 
   return (
     <Container>
