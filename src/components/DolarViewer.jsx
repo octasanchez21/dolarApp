@@ -259,7 +259,7 @@ const DolarViewer = () => {
       {/* Tarjeta del Dólar Blue */}
       <ContainerBlue>
       <BlueCard>
-        <h1>DÓLAR BLUE / CORDOBA</h1>
+        <h1>DÓLAR BLUE / CÓRDOBA</h1>
         <p style={{ display: "flex", justifyContent: "center", gap: "50px" }}>
           {/* Columna izquierda: Efectivo */}
           <div className="price-group">
