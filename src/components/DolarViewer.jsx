@@ -9,7 +9,25 @@ const Container = styled.div`
   background-color: #1e1e1e;
   color: #e0e0e0;
   font-family: Arial, sans-serif;
+    flex-direction: column;
+  display: flex;
+  @media (max-width: 480px) {
+  align-items: center; /* Centra el contenido */
+
+    
+  }
 `;
+
+const ContainerBlue = styled.div`
+  padding: 10px;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido */
+`;
+
 const Card = styled.div`
   background-color: rgba(39, 44, 39, 0.74);
   border-radius: 10px;
@@ -67,7 +85,7 @@ const BlueCard = styled(Card)`
 }
 
   .price-value {
-    font-size: vw; /* 5% del ancho de la pantalla */
+    font-size: 3vw; /* 5% del ancho de la pantalla */
     font-weight: bold;
     color: #72ba66;
   }
@@ -239,6 +257,7 @@ const DolarViewer = () => {
   return (
     <Container>
       {/* Tarjeta del Dólar Blue */}
+      <ContainerBlue>
       <BlueCard>
         <h1>DÓLAR BLUE</h1>
         <p style={{ display: "flex", justifyContent: "center", gap: "50px" }}>
@@ -276,7 +295,7 @@ const DolarViewer = () => {
           </div>
         </p>
       </BlueCard>
-
+      </ContainerBlue>
       {/* Grid de tarjetas de otros dólares */}
       <GridContainer>
         {Object.entries(dolares).map(([key, value]) => {
